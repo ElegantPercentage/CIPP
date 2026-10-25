@@ -1,0 +1,38 @@
+# ValhallaCare: deploys the CIPP frontend to the Static Web App cipp-swa-cdjbp (rg-cipp-prod-cus).
+# The Static Web App was created without a repository link, so no GitHub token went to Azure; this
+# workflow deploys with the app's deployment token, stored here as AZURE_STATIC_WEB_APPS_API_TOKEN.
+# Build values are CIPP's own (deployment/AzureDeploymentTemplate.json buildProperties); /api is the
+# linked Function App backend, so no API is built here.
+name: CIPP SWA deploy (cipp-swa-cdjbp)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cipp-swa-deploy
+  cancel-in-progress: false
+
+jobs:
+  build_and_deploy_job:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          lfs: false
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: "upload"
+          app_location: "/"
+          api_location: ""
+          output_location: "/out"
