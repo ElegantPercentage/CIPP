@@ -2,9 +2,6 @@
   "networking": {
     "allowedIpRanges": ["104.131.165.35/32"]
   },
-  "forwardingGateway": {
-    "allowedForwardedHosts": ["valhallacare-cipp-connector.tailbd96ba.ts.net"]
-  },
   "auth": {
     "identityProviders": {
       "azureActiveDirectory": {
